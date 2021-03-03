@@ -1,13 +1,11 @@
 from django.contrib import admin
 
 from .models import User
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .forms import RegisterForm, LoginForm
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
     model = User
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),

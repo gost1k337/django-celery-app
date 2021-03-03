@@ -1,0 +1,25 @@
+{% extends 'authentication/_base.html' %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+
+{% block form %}
+    <form class="form" action="/auth/login/" method="post">
+        {% csrf_token %}
+        <div class="form-title">
+            <h2>Войти</h2>
+        </div>
+        <div class="form-group">
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            {{ form.password }}
+        </div>
+        <div class="form-submit-btn">
+            <button type="submit" class="btn submit-btn btn-primary">Войти</button>
+            <span>или <a href="{% url 'auth:register' %}">Зарегистрироваться</a></span>
+        </div>
+    </form>
+{% endblock %}
