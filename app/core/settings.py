@@ -103,7 +103,10 @@ USE_L10N = True
 USE_TZ = True
 
 # User model
-
+AUTHENTICATION_BACKENDS = [
+    'authentication.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 AUTH_USER_MODEL = 'authentication.User'
 
 # static
@@ -126,3 +129,8 @@ CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER_URL", "amqp://localhost")
 CELERY_ACCEPT_CONTENT = [os.environ.get("CELERY_ACCEPT_CONTENT")]
 CELERY_TASK_SERIALIZER = os.environ.get("CELERY_TASK_SERIALIZER", "json")
 CELERY_RESULT_SERIALIZER = os.environ.get("CELERY_RESULT_SERIALIZER", "json")
+
+# Redis configuration
+
+REDIS_HOST = os.environ.get("REDIS_HOST", 'localhost')
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
