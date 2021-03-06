@@ -1,0 +1,24 @@
+{% extends 'authentication/_base.html' %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+
+{% block form %}
+    <form class="form" action="/auth/email_verification/" method="post">
+        {% csrf_token %}
+        <div class="form-title">
+            <h2>Введите код подтверждения, отправленный на ваш email</h2>
+        </div>
+        <div class="form-group">
+            {% if verification_failed %}
+                Введен неправильный код подтверждения
+            {% endif %}
+            {{ form.verification_code }}
+        </div>
+        <div class="form-submit-btn">
+            <button type="submit" class="btn submit-btn btn-primary">Подтвердить</button>
+        </div>
+    </form>
+{% endblock %}

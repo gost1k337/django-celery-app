@@ -35,3 +35,9 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'name': 'passwordInput', 'placeholder': 'Password...'})
     )
+
+
+class EmailVerificationForm(forms.Form):
+    verification_code = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control', 'name': 'verificationCodeInput', 'placeholder': 'Verification code...'})
+    )

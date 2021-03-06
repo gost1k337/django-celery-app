@@ -1,9 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.views import View
 
-from .models import User
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, EmailVerificationForm
+from .services import create_email_verification_code, compare_verification_code, verify_email
 
 
 class RegisterView(View):
@@ -18,9 +18,12 @@ class RegisterView(View):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
-            login(request, user)
+            raw_password = form.cleaned_data.get('password')
+            user_obj = authenticate(request, email=user.email, password=raw_password)
             if user is not None:
-                return redirect('home:index')
+                login(request, user_obj)
+                create_email_verification_code(user.email)
+                return redirect('auth:email_verification')
         context['form'] = form
         return render(request, 'authentication/register.html', context)
 
@@ -35,10 +38,32 @@ class LoginView(View):
         form = LoginForm(request.POST)
         if form.is_valid():
             credentials = form.cleaned_data
-            user = authenticate(email=credentials['email'],
+            user = authenticate(username=credentials['email'],
                                 password=credentials['password'])
             if user is not None:
                 login(request, user)
-                return redirect('home:index')
+                return redirect('auth:email_verification')
         context['form'] = form
-        return redirect('auth:login')
+        return render(request, 'authentication/login.html', context)
+
+
+class EmailVerificationView(View):
+    def get(self, request):
+        form = EmailVerificationForm()
+        return render(request, 'authentication/email_verification.html', {'form': form})
+
+    def post(self, request):
+        context = {}
+        form = EmailVerificationForm(request.POST)
+        if form.is_valid():
+            credentials = form.cleaned_data
+            code = credentials.get('verification_code')
+            email = request.user.email
+            if compare_verification_code(email, code):
+                verify_email(email)
+                return redirect('auth:login')
+            else:
+                context['verification_failed'] = True
+        context['form'] = form
+        return render(request, 'authentication/email_verification.html', context)
+

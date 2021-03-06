@@ -8,7 +8,7 @@ from .forms import RegisterForm, LoginForm
 class UserAdmin(admin.ModelAdmin):
     model = User
     fieldsets = (
-        (None, {'fields': ('email', 'username', 'password')}),
+        (None, {'fields': ('email', 'username', 'password', 'verified')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
     add_fieldsets = (
