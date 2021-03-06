@@ -13,12 +13,15 @@
         </div>
         <div class="form-group">
             {{ form.email }}
+            {{ form.email.errors }}
         </div>
         <div class="form-group">
             {{ form.username }}
+            {{ form.username.errors }}
         </div>
         <div class="form-group">
             {{ form.password }}
+            {{ form.password.errors }}
         </div>
         <div class="form-submit-btn">
             <input type="submit" value="Регистрация" class="btn submit-btn btn-primary">
