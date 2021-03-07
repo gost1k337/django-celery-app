@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from .forms import RegisterForm, LoginForm, EmailVerificationForm
+from .tasks import send_email_confirmation_task
 from .services import create_email_verification_code, compare_verification_code, verify_email
 
 
@@ -22,7 +23,8 @@ class RegisterView(View):
             user_obj = authenticate(request, email=user.email, password=raw_password)
             if user is not None:
                 login(request, user_obj)
-                create_email_verification_code(user.email)
+                code = create_email_verification_code(user.email)
+                send_email_confirmation_task.delay(user.email, code)
                 return redirect('auth:email_verification')
         context['form'] = form
         return render(request, 'authentication/register.html', context)

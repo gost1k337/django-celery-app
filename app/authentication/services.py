@@ -5,9 +5,10 @@ from .models import User
 from core.redis import r
 
 
-def create_email_verification_code(email: str):
+def create_email_verification_code(email: str) -> str:
     code = _generate_verification_code()
     r.set(f'email:{email}', code, ex=120)
+    return code
 
 
 def find_user_by_email(email: str) -> Optional[User]:
