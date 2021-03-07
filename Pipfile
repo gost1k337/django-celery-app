@@ -11,6 +11,9 @@ redis = "*"
 celery = "==4.4.6"
 
 [dev-packages]
+pre-commit = "*"
+flake8 = "*"
+black = "*"
 
 [requires]
 python_version = "3.8"
