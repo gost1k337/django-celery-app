@@ -7,7 +7,7 @@ from core.redis import r
 
 def create_email_verification_code(email: str) -> str:
     code = _generate_verification_code()
-    r.set(f'email:{email}', code, ex=120)
+    r.set(f"email:{email}", code, ex=120)
     return code
 
 
@@ -22,10 +22,9 @@ def verify_email(email: str):
 
 
 def compare_verification_code(email: str, code: str) -> bool:
-    verification_code = r.get(f'email:{email}')
+    verification_code = r.get(f"email:{email}")
     return verification_code == code
 
 
 def _generate_verification_code() -> str:
     return str(randint(100000, 999999))
-
