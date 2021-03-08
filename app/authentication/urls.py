@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import RegisterView, LoginView, EmailVerificationView
+from .views import EmailVerificationView, LoginView, RegisterView
 
 app_name = 'auth'
 

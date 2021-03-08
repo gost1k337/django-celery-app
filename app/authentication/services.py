@@ -1,8 +1,9 @@
 from random import randint
 from typing import Optional
 
-from .models import User
 from core.redis import r
+
+from .models import User
 
 
 def create_email_verification_code(email: str) -> str:

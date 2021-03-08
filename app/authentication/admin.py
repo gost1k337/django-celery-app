@@ -1,7 +1,7 @@
 from django.contrib import admin
 
+from .forms import LoginForm, RegisterForm
 from .models import User
-from .forms import RegisterForm, LoginForm
 
 
 @admin.register(User)

@@ -1,7 +1,7 @@
-from django.core.mail import send_mail
 from celery import shared_task
-
 from core.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 from .services import find_user_by_email
 from .utils import make_email_confirmation_letter
 

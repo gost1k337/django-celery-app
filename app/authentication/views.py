@@ -1,14 +1,11 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.views import View
 
-from .forms import RegisterForm, LoginForm, EmailVerificationForm
+from .forms import EmailVerificationForm, LoginForm, RegisterForm
+from .services import (compare_verification_code,
+                       create_email_verification_code, verify_email)
 from .tasks import send_email_confirmation_task
-from .services import (
-    create_email_verification_code,
-    compare_verification_code,
-    verify_email,
-)
 
 
 class RegisterView(View):
