@@ -1,10 +1,12 @@
-run:
-	python3 manage.py runserver
+dev-build:
+	sudo docker-compose build
+dev-run:
+	sudo docker-compose up -d
+dev-down:
+	sudo docker-compose down -v
 migration:
-	python3 manage.py makemigrations
+	sudo docker-compose exec app python3 manage.py makemigrations
 migrate:
-	python3 manage.py migrate
+	sudo docker-compose exec app python3 manage.py migrate
 superuser:
-	python3 manage.py createsuperuser
-install:
-	pipenv install
+	sudo docker-compose exec app python3 manage.py createsuperuser
