@@ -9,9 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY',)
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.getenv("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -63,11 +63,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.environ.get("POSTGRES_DB"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOST"),
-        "PORT": os.environ.get("POSTGRES_PORT"),
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POSTGRES_HOST"),
+        "PORT": os.getenv("POSTGRES_PORT"),
     }
 }
 
@@ -118,19 +118,19 @@ STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Celery configuration
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://localhost")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER_URL", "amqp://localhost")
-CELERY_ACCEPT_CONTENT = [os.environ.get("CELERY_ACCEPT_CONTENT")]
-CELERY_TASK_SERIALIZER = os.environ.get("CELERY_TASK_SERIALIZER", "json")
-CELERY_RESULT_SERIALIZER = os.environ.get("CELERY_RESULT_SERIALIZER", "json")
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "amqp://localhost")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_BROKER_URL", "amqp://localhost")
+CELERY_ACCEPT_CONTENT = [os.getenv("CELERY_ACCEPT_CONTENT")]
+CELERY_TASK_SERIALIZER = os.getenv("CELERY_TASK_SERIALIZER", "json")
+CELERY_RESULT_SERIALIZER = os.getenv("CELERY_RESULT_SERIALIZER", "json")
 
 # Redis configuration
 
-REDIS_HOST = os.environ.get("REDIS_HOST", 'localhost')
-REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+REDIS_HOST = os.getenv("REDIS_HOST", 'localhost')
+REDIS_PORT = os.getenv("REDIS_PORT", 6379)
