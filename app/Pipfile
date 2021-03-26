@@ -9,6 +9,9 @@ python-dotenv = "*"
 psycopg2-binary = "*"
 redis = "*"
 celery = "==4.4.6"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+drf-yasg = "*"
 
 [dev-packages]
 pre-commit = "*"

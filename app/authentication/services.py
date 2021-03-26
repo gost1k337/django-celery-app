@@ -1,13 +1,18 @@
-from random import randint
 from typing import Optional
 
 from core.redis import r
 
+from .dto import UserDTO
+from .helpers import generate_verification_code
 from .models import User
 
 
+def create_user(user_data: UserDTO) -> User:
+    return User.objects.create_user(user_data)
+
+
 def create_email_verification_code(email: str) -> str:
-    code = _generate_verification_code()
+    code = generate_verification_code()
     r.set(f"email:{email}", code, ex=120)
     return code
 
@@ -25,7 +30,3 @@ def verify_email(email: str):
 def compare_verification_code(email: str, code: str) -> bool:
     verification_code = r.get(f"email:{email}")
     return verification_code == code
-
-
-def _generate_verification_code() -> str:
-    return str(randint(100000, 999999))
