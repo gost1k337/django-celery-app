@@ -1,18 +1,26 @@
+from typing import TYPE_CHECKING
+
 from django.contrib.auth.base_user import BaseUserManager
+
+if TYPE_CHECKING:
+    from .models import User
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
-        user = self.model(email=self.normalize_email(email), **extra_fields)
+    def create_user(self, email, username, password) -> 'User':
+        user = self.model(email=email, username=username)
 
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+    def create_superuser(self, email, username, password) -> 'User':
+        user = self.create_user(email, username, password)
 
-        return self.create_user(email, password, **extra_fields)
+        user.is_superuser = True
+        user.is_staff = True
+        user.verified = True
+        user.save()
+
+        return user
