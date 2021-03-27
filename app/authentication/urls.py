@@ -1,11 +1,15 @@
 from django.urls import path
+from rest_framework.routers import SimpleRouter
+from rest_framework_simplejwt import views as jwt_views
 
-from .views import EmailVerificationView, LoginView, RegisterView
+from .views import UserViewSet
+
+router = SimpleRouter()
+router.register('', UserViewSet, basename='user')
 
 app_name = 'auth'
-
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('email_verification/', EmailVerificationView.as_view(), name='email_verification'),
+    *router.urls,
+    path('token/', jwt_views.TokenObtainPairView.as_view(), name='token'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='refresh_token'),
 ]

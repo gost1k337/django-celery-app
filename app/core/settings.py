@@ -24,12 +24,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'drf_yasg',
+    'corsheaders',
+
     'authentication',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,6 +95,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# REST framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
+
+
 # Internationalization
 
 LANGUAGE_CODE = 'en-us'
@@ -134,3 +149,5 @@ CELERY_RESULT_SERIALIZER = os.getenv("CELERY_RESULT_SERIALIZER", "json")
 
 REDIS_HOST = os.getenv("REDIS_HOST", 'localhost')
 REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:8080']

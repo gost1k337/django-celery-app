@@ -8,7 +8,7 @@ from .models import User
 
 
 def create_user(user_data: UserDTO) -> User:
-    return User.objects.create_user(user_data)
+    return User.objects.create(email=user_data.email, password=user_data.password, username=user_data.username)
 
 
 def create_email_verification_code(email: str) -> str:

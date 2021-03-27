@@ -12,6 +12,7 @@ celery = "==4.4.6"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pre-commit = "*"

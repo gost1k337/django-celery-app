@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8037e079d8b03031e0b16996b0dace445bc941cbdc94ac0a2ed3c82eef5e3027"
+            "sha256": "47858edc9ff64d225d3d7590d362ca62347b9ac7b743fe935f1301951b32a01b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -84,6 +84,14 @@
             "index": "pypi",
             "version": "==3.1.7"
         },
+        "django-cors-headers": {
+            "hashes": [
+                "sha256:1ac2b1213de75a251e2ba04448da15f99bcfcbe164288ae6b5ff929dc49b372f",
+                "sha256:96069c4aaacace786a34ee7894ff680780ec2644e4268b31181044410fecd12e"
+            ],
+            "index": "pypi",
+            "version": "==3.7.0"
+        },
         "djangorestframework": {
             "hashes": [
                 "sha256:6d1d59f623a5ad0509fe0d6bfe93cbdfe17b8116ebc8eda86d45f6e16e819aaf",
@@ -125,11 +133,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71",
-                "sha256:b74159469b464a99cb8cc3e21973e4d96e05d3024d337313fedb618a6e86e6f4"
+                "sha256:9dd89454add8894cc93619426949a58bdad9c1ef42822e46b884e7fc2d2a901e",
+                "sha256:ce8ae4d781be528001aad74ecfec7512641e36f1272effeea55164e47ae26841"
             ],
             "markers": "python_version < '3.8'",
-            "version": "==3.7.3"
+            "version": "==3.8.0"
         },
         "inflection": {
             "hashes": [
@@ -458,11 +466,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71",
-                "sha256:b74159469b464a99cb8cc3e21973e4d96e05d3024d337313fedb618a6e86e6f4"
+                "sha256:9dd89454add8894cc93619426949a58bdad9c1ef42822e46b884e7fc2d2a901e",
+                "sha256:ce8ae4d781be528001aad74ecfec7512641e36f1272effeea55164e47ae26841"
             ],
             "markers": "python_version < '3.8'",
-            "version": "==3.7.3"
+            "version": "==3.8.0"
         },
         "isort": {
             "hashes": [
