@@ -18,6 +18,7 @@ django-cors-headers = "*"
 pre-commit = "*"
 flake8 = "*"
 isort = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.8"
