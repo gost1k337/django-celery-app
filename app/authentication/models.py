@@ -5,11 +5,11 @@ from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=64, verbose_name='Имя')
+    username = models.CharField(max_length=64, verbose_name='Name')
     email = models.EmailField(unique=True)
-    verified = models.BooleanField(default=False, verbose_name='Подтвержден')
-    is_staff = models.BooleanField(default=False, verbose_name='Администратор')
-    is_active = models.BooleanField(default=True, verbose_name='Активен')
+    verified = models.BooleanField(default=False, verbose_name='Verified')
+    is_staff = models.BooleanField(default=False, verbose_name='Admin')
+    is_active = models.BooleanField(default=True, verbose_name='Active')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -19,8 +19,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
     def __str__(self):
         return self.email

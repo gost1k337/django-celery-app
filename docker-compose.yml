@@ -37,6 +37,8 @@ services:
     env_file: .env
     command: celery worker --app=core --loglevel=INFO
     restart: on-failure
+    volumes:
+      - ./app:/usr/src/app
     links:
       - db
       - redis

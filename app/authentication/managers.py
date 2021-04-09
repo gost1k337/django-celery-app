@@ -7,16 +7,17 @@ if TYPE_CHECKING:
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password) -> 'User':
-        user = self.model(email=email, username=username)
+    def create_user(self, user_data: dict) -> 'User':
+        user = self.model(email=user_data['email'],
+                          username=user_data['username'])
 
-        user.set_password(password)
+        user.set_password(user_data['password'])
         user.save()
 
         return user
 
-    def create_superuser(self, email, username, password) -> 'User':
-        user = self.create_user(email, username, password)
+    def create_superuser(self, user_data: dict) -> 'User':
+        user = self.create_user(user_data)
 
         user.is_superuser = True
         user.is_staff = True

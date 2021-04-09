@@ -2,13 +2,12 @@ from typing import Optional
 
 from core.redis import r
 
-from .dto import UserDTO
 from .helpers import generate_verification_code
 from .models import User
 
 
-def create_user(user_data: UserDTO) -> User:
-    return User.objects.create(email=user_data.email, password=user_data.password, username=user_data.username)
+def create_user(user_data: dict) -> User:
+    return User.objects.create_user(user_data)
 
 
 def create_email_verification_code(email: str) -> str:

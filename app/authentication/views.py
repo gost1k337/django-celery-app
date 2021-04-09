@@ -13,9 +13,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    @action(detail=False,
-            methods=['GET'],
-            permission_clasess=[permissions.IsAuthenticated])
+    @action(detail=False, methods=['GET'])
     def current_user(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.AllowAny()]
+
+        return super().get_permissions()
