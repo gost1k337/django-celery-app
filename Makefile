@@ -3,7 +3,7 @@ dev-build:
 dev-run:
 	sudo docker-compose up
 dev-down:
-	sudo docker-compose down
+	sudo docker-compose down -v
 migration:
 	sudo docker-compose exec app python3 manage.py makemigrations
 migrate:

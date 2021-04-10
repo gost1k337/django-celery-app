@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, user_data: dict) -> 'User':
+    def create_superuser(self, **user_data: dict) -> 'User':
         user = self.create_user(user_data)
 
         user.is_superuser = True
