@@ -31,7 +31,7 @@ services:
     volumes:
       - ./data/redis:/var/lib/ redis/data
     ports:
-      - ${REDIS_PORT}:6380
+      - ${REDIS_PORT}:6379
   celery_worker:
     build: ./app
     env_file: .env
