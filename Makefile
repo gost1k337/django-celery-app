@@ -1,7 +1,7 @@
 dev-build:
 	sudo docker-compose build
 dev-run:
-	sudo docker-compose up -d
+	sudo docker-compose up
 dev-down:
 	sudo docker-compose down -v
 migration:

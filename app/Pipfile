@@ -9,11 +9,16 @@ python-dotenv = "*"
 psycopg2-binary = "*"
 redis = "*"
 celery = "==4.4.6"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+drf-yasg = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pre-commit = "*"
 flake8 = "*"
 isort = "*"
+yapf = "*"
 
 [requires]
 python_version = "3.8"

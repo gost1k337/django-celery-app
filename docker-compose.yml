@@ -31,12 +31,14 @@ services:
     volumes:
       - ./data/redis:/var/lib/ redis/data
     ports:
-      - ${REDIS_PORT}:6380
+      - ${REDIS_PORT}:6379
   celery_worker:
     build: ./app
     env_file: .env
     command: celery worker --app=core --loglevel=INFO
     restart: on-failure
+    volumes:
+      - ./app:/usr/src/app
     links:
       - db
       - redis

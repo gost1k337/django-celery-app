@@ -1,78 +1,41 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect, render
-from django.views import View
+from rest_framework import permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from .forms import EmailVerificationForm, LoginForm, RegisterForm
-from .services import (compare_verification_code,
-                       create_email_verification_code, verify_email)
+from .models import User
+from .serializers import UserSerializer
+from .services import auth_service
 from .tasks import send_email_confirmation_task
 
 
-class RegisterView(View):
-    def get(self, request):
-        form = RegisterForm()
-        return render(request, "authentication/register.html", {"form": form})
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def post(self, request):
-        context = {}
-        form = RegisterForm(request.POST)
+    @action(detail=False, methods=['GET'])
+    def current_user(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.save()
-            raw_password = form.cleaned_data.get("password")
-            user_obj = authenticate(
-                request, email=user.email, password=raw_password
-            )
-            if user is not None:
-                login(request, user_obj)
-                code = create_email_verification_code(user.email)
-                send_email_confirmation_task.delay(user.email, code)
-                return redirect("auth:email_verification")
-        context["form"] = form
-        return render(request, "authentication/register.html", context)
+    def perform_create(self, serializer):
+        user = serializer.save()
+        verification_code = auth_service.create_email_verification_code(
+            user.email)
+        send_email_confirmation_task.delay(user.email, verification_code)
 
+    @action(url_path='verify', detail=False, methods=['POST'])
+    def verify(self, request):
+        email = request.user.email
+        code = str(request.data.get('code'))
+        success = auth_service.compare_verification_code(email=email,
+                                                         code=code)
+        if success:
+            auth_service.verify_email(email)
+        return Response({"success": success})
 
-class LoginView(View):
-    def get(self, request):
-        form = LoginForm()
-        return render(request, "authentication/login.html", {"form": form})
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.AllowAny()]
 
-    def post(self, request):
-        context = {}
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            credentials = form.cleaned_data
-            user = authenticate(
-                username=credentials["email"], password=credentials["password"]
-            )
-            if user is not None:
-                login(request, user)
-                return redirect("auth:email_verification")
-        context["form"] = form
-        return render(request, "authentication/login.html", context)
-
-
-class EmailVerificationView(View):
-    def get(self, request):
-        form = EmailVerificationForm()
-        return render(
-            request, "authentication/email_verification.html", {"form": form}
-        )
-
-    def post(self, request):
-        context = {}
-        form = EmailVerificationForm(request.POST)
-        if form.is_valid():
-            credentials = form.cleaned_data
-            code = credentials.get("verification_code")
-            email = request.user.email
-            if compare_verification_code(email, code):
-                verify_email(email)
-                return redirect("auth:login")
-            else:
-                context["verification_failed"] = True
-        context["form"] = form
-        return render(
-            request, "authentication/email_verification.html", context
-        )
+        return super().get_permissions()
