@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from . import services
 from .models import User
+from .services import auth_service
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -13,4 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data: dict) -> User:
-        return services.create_user(validated_data)
+        return auth_service.create_user(validated_data)
