@@ -13,7 +13,10 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    @action(detail=False, methods=['GET'])
+    @action(url_path='me',
+            detail=False,
+            methods=['GET'],
+            permission_classes=[permissions.IsAuthenticated])
     def current_user(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
@@ -24,7 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user.email)
         send_email_confirmation_task.delay(user.email, verification_code)
 
-    @action(url_path='verify', detail=False, methods=['POST'])
+    @action(detail=False, methods=['POST'])
     def verify(self, request):
         email = request.user.email
         code = str(request.data.get('code'))
